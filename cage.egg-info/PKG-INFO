@@ -284,4 +284,4 @@ Description: Summary
 Keywords: python cellular automata simulation engine
 Platform: UNKNOWN
 Classifier: Topic :: Utilities
-Classifier: License :: OSI Approved :: LGPL License
+Classifier: License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)

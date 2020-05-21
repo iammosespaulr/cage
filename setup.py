@@ -17,6 +17,6 @@ setup(
     long_description=read('cage/README'),
     classifiers=[
         "Topic :: Utilities",
-        "License :: OSI Approved :: LGPL License",
+        "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",
     ],
 )
