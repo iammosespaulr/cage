@@ -43,6 +43,6 @@ def main(stdscr):
 
 if __name__ == '__main__':
     if len(sys.argv) < 3:
-        print >> sys.stderr, "usage: %s <states> <threshold>" % sys.argv[0]
+        print("usage: %s <states> <threshold>" % sys.argv[0], file=sys.stderr)
         sys.exit()
     curses.wrapper(main)

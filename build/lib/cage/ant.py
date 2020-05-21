@@ -89,7 +89,7 @@ class Genome:
     well as the three "genes" -- color, state, and action."""
     
     ACTIONS = 4
-    NONE, LEFT, RIGHT, ADVANCE = range(ACTIONS)
+    NONE, LEFT, RIGHT, ADVANCE = list(range(ACTIONS))
     
     def __init__(self, colors, states):
         assert colors & (colors - 1) == 0
@@ -174,7 +174,7 @@ class Automaton(cage.AgentAutomaton):
         
 
 def main(stdscr):
-    ants, colors, states = map(int, sys.argv[1:])
+    ants, colors, states = list(map(int, sys.argv[1:]))
     try:
         player = cage.CursesPlayer(stdscr)
         size = player.size
@@ -191,6 +191,6 @@ def main(stdscr):
 
 if __name__ == '__main__':
     if len(sys.argv) < 4:
-        print >> sys.stderr, "usage: %s <ants> <colors> <states>" % sys.argv[0]
+        print("usage: %s <ants> <colors> <states>" % sys.argv[0], file=sys.stderr)
         sys.exit()
     curses.wrapper(main)

@@ -23,7 +23,7 @@ RULES = {'conway': '3/23',
 def main(stdscr):
     global RULES
     rule = sys.argv[1]
-    if RULES.has_key(rule):
+    if rule in RULES:
         rule = RULES[rule]
     try:
         player = cage.CursesPlayer(stdscr)
@@ -36,6 +36,6 @@ def main(stdscr):
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
-        print >> sys.stderr, "usage: %s <rule>" % sys.argv[0]
+        print("usage: %s <rule>" % sys.argv[0], file=sys.stderr)
         sys.exit()
     curses.wrapper(main)

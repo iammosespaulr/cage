@@ -17,7 +17,7 @@ import cage
 class WireAutomaton(cage.SynchronousAutomaton):
     states = 4
 
-    BACKGROUND, WIRE, HEAD, TAIL = range(4)
+    BACKGROUND, WIRE, HEAD, TAIL = list(range(4))
 
     pattern = [
 "0030002000000000000000000000000000000000000000000000000000000000000000000",

@@ -27,7 +27,7 @@ def main():
     player = None
     total = 256
     for code in range(total):
-        print "%d/%d" % (code, total)
+        print("%d/%d" % (code, total))
         try:
             player = cage.LinePlayer(79)
             automaton = TimedLinearCodedAutomaton(player.size, code)
@@ -37,6 +37,6 @@ def main():
             if player is not None:
                 player.done()
             player = None
-        print
+        print()
 
 if __name__ == '__main__': main()
