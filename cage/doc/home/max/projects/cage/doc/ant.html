@@ -1,0 +1,208 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+          "http://www.w3.org/TR/html40/loose.dtd">
+
+<html>
+         
+  <head>
+    <title>Module: ant</title>
+  </head>
+
+  <body bgcolor="#ffffff">
+
+        <p><i><a href="../../../../../index.html">Table of Contents</a></i></p>
+        
+        <table border="0" cellpadding="5" cellspacing="0" width="100%">
+        <tr>
+            <th rowspan="2"
+                valign="top"
+                align="left"
+                width="10%"
+                bgcolor="#88bbee"><font color="#000000">Module: ant</font>
+            </th>
+            <th bgcolor="#88bbee"
+                width="90%"
+                align="right"><font color="#000000">ant.py</font>
+            </th>
+        </tr>
+        <tr>
+        <td>
+        
+<p>A sample implementation of a unique finite state automaton with agents.</p>
+<p>The FSAs consist of <em>ants</em>, which are agents that move around on a
+two-dimensional automaton.  Ants have a state, a location, and a
+direction.  They also have two figures that determine how complex they
+are: the total number of possible states they can have, and the total
+number of colors that the ant can discern and manipulate; both of
+these figures must powers of two.  Ants are deterministic creatures,
+whose behavior is deterministically determined by their <em>genomes</em>;
+these consists of three lookup tables, or <em>genes</em>: one for state, one
+for color, and one for action.</p>
+<p>Here, <em>color</em> refers to the cellular states of the underlying
+automaton (which do not spontaneously change).  The total number of
+colors that an ant can interact with acts as a bitmask, called the
+<em>color mask</em>, on the underlying cell state; if an ant only can
+interact with 8 colors, then it can only retrieve and change the lower
+3 bits of the state of each cell it is located on.  The ant's <em>state</em>
+is an internal designation that modifies its behavior; the state is an
+integer between 0 and <em>N</em> - 1, where <em>N</em> is the total number of
+states.  The lookup tables, or genes, are each used by the current
+perceived color and state, and thus are two dimensional arrays.</p>
+<p>Ants can also perform an <em>action</em>, which is one of the four possible
+behaviors: do nothing, turn left, turn right, or move forward
+(advance).</p>
+<p>Each update, an ant will do the following:</p>
+
+<ul>
+<li><p>retrieve the cellular state and turn it into a color according to
+  its color mask;</p></li>
+<li><p>use that color and the ant's current state to do lookups on each of
+  the ant's genes to get its new state, new color, and action;</p></li>
+<li><p>apply the new color to the current cell state (taking into account
+  the color mask);</p></li>
+<li><p>change to the new state;</p></li>
+<li><p>and, finally, perform the specified action.</p></li>
+
+</ul>
+<table border="0" cellpadding="5" cellspacing="0" width="100%">
+
+        <tr>
+            <th bgcolor="#99ccff"
+                rowspan="2"
+                valign="top"
+                align="left"
+                width="20%"
+                >
+                <font color="#000000">
+                  <a name="Imported modules">Imported modules</a>&nbsp;
+                </font>
+            </th>
+            <th bgcolor="#99ccff"
+                valign="top"
+                align="left"
+                width="80%"
+                >
+                <font color="#000000">&nbsp;</font>
+            </th>
+        </tr>
+        <tr>
+        <td>
+        
+<b>import</b> <a href="cage.html">cage</a><br>
+<b>import</b> curses<br>
+<b>import</b> <a href="http://www.python.org/doc/current/lib/module-random.html">random</a><br>
+<b>import</b> <a href="http://www.python.org/doc/current/lib/module-sys.html">sys</a><br>
+
+</td></tr>
+
+        <tr>
+            <th bgcolor="#99ccff"
+                rowspan="2"
+                valign="top"
+                align="left"
+                width="20%"
+                >
+                <font color="#000000">
+                  <a name="Functions">Functions</a>&nbsp;
+                </font>
+            </th>
+            <th bgcolor="#99ccff"
+                valign="top"
+                align="left"
+                width="80%"
+                >
+                <font color="#000000">&nbsp;</font>
+            </th>
+        </tr>
+        <tr>
+        <td>
+        
+<a href="#main">main</a><br>
+
+
+        <tr>
+            <th bgcolor="#99ccff"
+                rowspan="2"
+                valign="top"
+                align="left"
+                width="20%"
+                >
+                <font color="#000000">
+                  <a name="main"></a>&nbsp;
+                </font>
+            </th>
+            <th bgcolor="#99ccff"
+                valign="top"
+                align="left"
+                width="80%"
+                >
+                <font color="#000000">main&nbsp;</font>
+            </th>
+        </tr>
+        <tr>
+        <td>
+        <font color="#000088"><pre>
+main ( stdscr )
+
+</pre></font>
+
+</td></tr>
+
+        <tr>
+            <th bgcolor="#99ccff"
+                rowspan="2"
+                valign="top"
+                align="left"
+                width="20%"
+                >
+                <font color="#000000">
+                  <a name="Classes">Classes</a>&nbsp;
+                </font>
+            </th>
+            <th bgcolor="#99ccff"
+                valign="top"
+                align="left"
+                width="80%"
+                >
+                <font color="#000000">&nbsp;</font>
+            </th>
+        </tr>
+        <tr>
+        <td>
+        
+<table border="0" cellpadding="3" cellspacing="0">
+<tr><td valign="top" align="left"><p><a href="ant/Ant.html">Ant</a></p></td><td valign="top" align="left">
+<p>An individual FSA in the system.</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="ant/Automaton.html">Automaton</a></p></td><td valign="top" align="left">
+<p>The actual automaton class.</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="ant/Gene.html">Gene</a></p></td><td valign="top" align="left">
+<p>A single lookup table, mapping color and state to a value.</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="ant/Genome.html">Genome</a></p></td><td valign="top" align="left">
+<p>The encapsulation of the total number of states and colors, as</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="ant/Map.html">Map</a></p></td><td valign="top" align="left">
+<p>A standard toroidal topology with no neighborhood.</p>
+</td></tr>
+</table>
+</td></tr>
+</td></tr>
+</table>
+
+        </td>
+        </tr>
+        </table>
+
+        <hr>
+
+        <p><i><a href="../../../../../index.html">Table of Contents</a></i></p>
+
+        <font size="-2"><i>This document was automatically generated
+        on Sat Jul 29 13:31:37 2006 by
+        <a href="http://happydoc.sourceforge.net">HappyDoc</a> version
+        2.1</i></font>
+        
+        </body>
+        </html>
+        

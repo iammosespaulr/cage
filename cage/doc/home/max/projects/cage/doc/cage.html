@@ -1,0 +1,240 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+          "http://www.w3.org/TR/html40/loose.dtd">
+
+<html>
+         
+  <head>
+    <title>Module: cage</title>
+  </head>
+
+  <body bgcolor="#ffffff">
+
+        <p><i><a href="../../../../../index.html">Table of Contents</a></i></p>
+        
+        <table border="0" cellpadding="5" cellspacing="0" width="100%">
+        <tr>
+            <th rowspan="2"
+                valign="top"
+                align="left"
+                width="10%"
+                bgcolor="#88bbee"><font color="#000000">Module: cage</font>
+            </th>
+            <th bgcolor="#88bbee"
+                width="90%"
+                align="right"><font color="#000000">cage.py</font>
+            </th>
+        </tr>
+        <tr>
+        <td>
+        
+<p>A full-featured, generic cellular automata engine in Python.</p>
+<table border="0" cellpadding="5" cellspacing="0" width="100%">
+
+        <tr>
+            <th bgcolor="#99ccff"
+                rowspan="2"
+                valign="top"
+                align="left"
+                width="20%"
+                >
+                <font color="#000000">
+                  <a name="Imported modules">Imported modules</a>&nbsp;
+                </font>
+            </th>
+            <th bgcolor="#99ccff"
+                valign="top"
+                align="left"
+                width="80%"
+                >
+                <font color="#000000">&nbsp;</font>
+            </th>
+        </tr>
+        <tr>
+        <td>
+        
+<b>import</b> <a href="http://www.python.org/doc/current/lib/module-operator.html">operator</a><br>
+<b>import</b> <a href="http://www.python.org/doc/current/lib/module-random.html">random</a><br>
+<b>import</b> <a href="http://www.python.org/doc/current/lib/module-types.html">types</a><br>
+
+</td></tr>
+
+        <tr>
+            <th bgcolor="#99ccff"
+                rowspan="2"
+                valign="top"
+                align="left"
+                width="20%"
+                >
+                <font color="#000000">
+                  <a name="Classes">Classes</a>&nbsp;
+                </font>
+            </th>
+            <th bgcolor="#99ccff"
+                valign="top"
+                align="left"
+                width="80%"
+                >
+                <font color="#000000">&nbsp;</font>
+            </th>
+        </tr>
+        <tr>
+        <td>
+        
+<table border="0" cellpadding="3" cellspacing="0">
+<tr><td valign="top" align="left"><p><a href="cage/Agent.html">Agent</a></p></td><td valign="top" align="left">
+<p>An agent is an arbitrary object that can roam around on a map,</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/AgentAutomaton.html">AgentAutomaton</a></p></td><td valign="top" align="left">
+<p>An automaton intended only for use by agents; no underlying</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/AsynchronousAutomaton.html">AsynchronousAutomaton</a></p></td><td valign="top" align="left">
+<p>An asynchronous automaton uses one map and updates each cell in</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/Automaton.html">Automaton</a></p></td><td valign="top" align="left">
+<p>An automaton joins together the map, the number of possible</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/CardinalDirection.html">CardinalDirection</a></p></td><td valign="top" align="left">
+<p>A cardinal direction: one of the four primary compass points.</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/CircleTopology.html">CircleTopology</a></p></td><td valign="top" align="left">
+<p>A one-dimensional, unbounded topology consisting of a line of</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/CodedTotalisticRule.html">CodedTotalisticRule</a></p></td><td valign="top" align="left">
+<p>A two-state totalistic rule, expressed in terms of two sets (a</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/ConwayAutomaton.html">ConwayAutomaton</a></p></td><td valign="top" align="left">
+<p>Conway's Game of Life, with an optional flag for 'high life.</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/CursesPlayer.html">CursesPlayer</a></p></td><td valign="top" align="left">
+<p>A curses player displays a two-dimensional automaton with some</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/Direction.html">Direction</a></p></td><td valign="top" align="left">
+<p>A generalized direction on a 2-dimensional topology.  For use</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/GridTopology.html">GridTopology</a></p></td><td valign="top" align="left">
+<p>A two-dimensional, bounded topology consisting of a rectangular</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/HexagonalDirection.html">HexagonalDirection</a></p></td><td valign="top" align="left">
+<p>An hexagonal direction, analogous to hexagonal neighborhoods.</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/HexagonalNeighborhood.html">HexagonalNeighborhood</a></p></td><td valign="top" align="left">
+<p>A two-dimensional, hexagonally-shaped neighborhood.</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/ImagePlayer.html">ImagePlayer</a></p></td><td valign="top" align="left"></td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/Initializer.html">Initializer</a></p></td><td valign="top" align="left">
+<p>An initializer simply sets up the contents of a network before</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/KnightsMap.html">KnightsMap</a></p></td><td valign="top" align="left">
+<p>A standard two-dimensional, knight's neighborhood map.</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/KnightsNeighborhood.html">KnightsNeighborhood</a></p></td><td valign="top" align="left">
+<p>A two-dimensional neighborhood encompassing all the legal moves</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/LineMap.html">LineMap</a></p></td><td valign="top" align="left">
+<p>A standard one-dimensional, line map.</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/LinePlayer.html">LinePlayer</a></p></td><td valign="top" align="left">
+<p>A line player displays a one-dimensional automaton with one row</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/LineTopology.html">LineTopology</a></p></td><td valign="top" align="left">
+<p>A one-dimensional, bounded topology consisting of a line of</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/LinearCodedAutomaton.html">LinearCodedAutomaton</a></p></td><td valign="top" align="left">
+<p>A two-state, synchronous automaton with a linear coded rule</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/LinearCodedRule.html">LinearCodedRule</a></p></td><td valign="top" align="left">
+<p>A linear coded rule is one which enumerates all possible rules.</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/MooreMap.html">MooreMap</a></p></td><td valign="top" align="left">
+<p>A standard two-dimensional, Moore map.</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/MooreNeighborhood.html">MooreNeighborhood</a></p></td><td valign="top" align="left">
+<p>The Moore neighborhood.  A two-dimensional neighborhood</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/Neighborhood.html">Neighborhood</a></p></td><td valign="top" align="left">
+<p>The abstraction of a neighbhorhood, or the set of cells that</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/NullNeighborhood.html">NullNeighborhood</a></p></td><td valign="top" align="left">
+<p>A null neighborhood, literally consisting of no neighbors</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/OrdinalDirection.html">OrdinalDirection</a></p></td><td valign="top" align="left">
+<p>A cardinal or ordinal direction: any of the eight compass points.</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/PatternInitializer.html">PatternInitializer</a></p></td><td valign="top" align="left">
+<p>A pattern initializer takes a (two-dimensional) pattern and</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/Player.html">Player</a></p></td><td valign="top" align="left">
+<p>Players simple orchestrate the running of an automaton and</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/PointInitializer.html">PointInitializer</a></p></td><td valign="top" align="left">
+<p>A point initializer starts with an initially blank grid and</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/RadialMap.html">RadialMap</a></p></td><td valign="top" align="left">
+<p>A standard one-dimensional, radial map.</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/RadialNeighborhood.html">RadialNeighborhood</a></p></td><td valign="top" align="left">
+<p>A one-dimensional neighborhood consisting of the cells to the</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/RandomInitializer.html">RandomInitializer</a></p></td><td valign="top" align="left">
+<p>A random initializer sets all the cells in the network to some</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/ReductionRule.html">ReductionRule</a></p></td><td valign="top" align="left">
+<p>A reduction rule takes the list of states and reduces them</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/Rule.html">Rule</a></p></td><td valign="top" align="left">
+<p>The rule is an optional mixin class (intended to be mixed in</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/SeedInitializer.html">SeedInitializer</a></p></td><td valign="top" align="left">
+<p>A seed initializer places count cells of the specific state in</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/StringInitializer.html">StringInitializer</a></p></td><td valign="top" align="left">
+<p>A pattern initializer that takes a list of ASCII strings</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/SynchronousAutomaton.html">SynchronousAutomaton</a></p></td><td valign="top" align="left">
+<p>A synchronous automaton updates all cells simultaneously (that</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/TextPlayer.html">TextPlayer</a></p></td><td valign="top" align="left">
+<p>Core routines for text-related players.</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/Topology.html">Topology</a></p></td><td valign="top" align="left">
+<p>A topology is the encapsulation of the shape and dimensionality</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/ToroidTopology.html">ToroidTopology</a></p></td><td valign="top" align="left">
+<p>A two-dimensional, unbounded topology consisting of a</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/TwoStateAutomaton.html">TwoStateAutomaton</a></p></td><td valign="top" align="left">
+<p>A two-state automaton is a synchronous automaton that has, not</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/TwoStateReductionAutomaton.html">TwoStateReductionAutomaton</a></p></td><td valign="top" align="left">
+<p>A two-state, synchronous automaton with a reduction rule.</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/TwoStateTotalisticAutomaton.html">TwoStateTotalisticAutomaton</a></p></td><td valign="top" align="left">
+<p>A two-state, synchronous automaton with a Moore map and the</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/VonNeumannMap.html">VonNeumannMap</a></p></td><td valign="top" align="left">
+<p>A standard two-dimensional, von Neumann map.</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="cage/VonNeumannNeighborhood.html">VonNeumannNeighborhood</a></p></td><td valign="top" align="left">
+<p>The von Neumann neighborhood.  A two-dimensional neighborhood</p>
+</td></tr>
+</table>
+</td></tr>
+</td></tr>
+</table>
+
+        </td>
+        </tr>
+        </table>
+
+        <hr>
+
+        <p><i><a href="../../../../../index.html">Table of Contents</a></i></p>
+
+        <font size="-2"><i>This document was automatically generated
+        on Sat Jul 29 13:31:37 2006 by
+        <a href="http://happydoc.sourceforge.net">HappyDoc</a> version
+        2.1</i></font>
+        
+        </body>
+        </html>
+        

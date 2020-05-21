@@ -1,0 +1,370 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+          "http://www.w3.org/TR/html40/loose.dtd">
+
+<html>
+         
+  <head>
+    <title>cage</title>
+  </head>
+
+  <body bgcolor="#ffffff">
+
+        <p><i><a href="index.html">Table of Contents</a></i></p>
+        
+        <table border="0" cellpadding="5" cellspacing="0" width="100%">
+        <tr>
+            <th rowspan="2"
+                valign="top"
+                align="left"
+                width="10%"
+                bgcolor="#88bbee"><font color="#000000">cage</font>
+            </th>
+            <th bgcolor="#88bbee"
+                width="90%"
+                align="right"><font color="#000000">&nbsp;</font>
+            </th>
+        </tr>
+        <tr>
+        <td>
+        
+<h3>Summary</h3>
+<p>    A generic and fairly complete cellular automata simulation engine.</p>
+<h3>Overview</h3>
+<p>    CAGE is a fairy generic and complete cellular automaton simulation
+    engine in Python.  It supports both 1D and 2D automata, a variety
+    of prepackaged rules, and the concept of "agents" which can move
+    about independently on the map for implementing agent behavior.</p>
+<p>    CAGE comes with numerous examples of fully-functional CA systems,
+    including Conway's Game of Life, Langton's self-reproducing
+    automaton, Langton's "vants," and 1D automata rule explorers.  It
+    also comes with simple displayers (including a curses interface
+    for 2D automata).  Also included is a unique implementation of a
+    finite state machine (ant.py).</p>
+<p>    Note that CAGE is implemented entirely in Python, and due to its
+    very generalized nature, is not designed for speed.  It is
+    sufficient to update a 80x24 Conway's Game of Life grid at a few
+    times per second on a modern machine.  CAGE is intended primarily
+    as an education toolkit, rather than an industrial-strength CA
+    simulator.</p>
+<h3>Getting the software</h3>
+<p>    The current version of cage is 1.1.4.</p>
+<p>    The software is available in a tarball here:
+    <a href="http://www.alcyone.com/software/cage/cage-latest.tar.gz">http://www.alcyone.com/software/cage/cage-latest.tar.gz</a>.</p>
+<p>    The official URL for this Web site is
+    <a href="http://www.alcyone.com/software/cage/">http://www.alcyone.com/software/cage/</a>.</p>
+<h3>License</h3>
+<p>    This code is released under the <a href="http://www.gnu.org/copyleft/lesser.html">LGPL</a>.</p>
+<h3>Introduction</h3>
+<p>    In very general terms, a cellular automaton has the following key
+    features:</p>
+
+<ul>
+<li><p>time is measured in discrete steps, called time units;</p></li>
+<li><p>a network of cells, each of which with a well-defined state at
+      each time unit;</p></li>
+<li><p>at each time unit, each cell has a series of other cells which
+      constitutes its neighorhood;</p></li>
+<li><p>the state each of cell changes according to a state transition
+      function which depends on the state of that cell and the states
+      of the cells of its neighbors;</p></li>
+<li><p>in synchronous automata (the typical usage), all cell
+      transitions take place simultaneously.</p></li>
+
+</ul>
+<p>    In most cellular automata (and most textbook definitions), the
+    cellular network is arranged into a rigid lattice (<em>i.e.</em>, a line
+    or a grid), and for any given cell its neighborhood is constant
+    (that is, the same for all time steps).  These assumptions,
+    however, are not present in CAGE.</p>
+<p>    CAGE employs the following abstractions of the cellular automaton
+    model (and classes):</p>
+<dl>
+<dt>    <strong>State</strong></dt>
+<dd>The state of a cell is repesented with an integer
+      from 0 to N, where N is the total number of allowed states.</dd>
+<dt>    <strong>Address</strong></dt>
+<dd>An address is merely a tuple of one more integers
+      that represents the location of a cell in a given topology.</dd>
+<dt>    <strong>Dimensionality</strong></dt>
+<dd>The number of elements of the tuple in an
+      address; this must match the dimensionality of the topology
+      being used.</dd>
+<dt>    <strong>Topology</strong></dt>
+<dd>Topologies determine the arrangements of cells in
+      a network.  Topologies can be bounded (where they have an edge,
+      and any addresses off that edge are taken as having some
+      background state), or unbounded (usually where they wrap around
+      on themselves, such as for the surface of a sphere).  Topologies
+      have the ability to normalize addresses, and additionally can
+      make morphologically identical clones of the same size and shape
+      (not necessarily their actual cellular states) for synchronous
+      automata that need to maintain multiple topologies for the sake
+      of simultaneous update.  <em>Note:</em>  Topologies and neighborhoods
+      are intended to be used as mixin classes, in order to make maps
+      that automatas use.</dd>
+<dt>    <strong>Neighborhood</strong></dt>
+<dd>Neighborhoods encapsulate the translation of
+      addresses (not cell states) to a list of their neighbors, taking
+      into account the topology they are connected with.  The abstract
+      Neighborhood class also supports a wide variety of helper
+      methods (which need not be overridden) in order to help do
+      common operations with neighborhoods, such as finding neighbors
+      in a given state, summing the states of all neighbors, etc.
+      Some automata make a distinction between inclusive and exclusive
+      neighborhoods -- inclusive ones include the cell itself (whose
+      neighborhood is being computed), whereas exclusive ones do not.
+      CAGE does not make this distinction; some helper methods support
+      an optional inclusive argument for making this distinction; the
+      list of neighboring addresses should never include an address
+      consisting of all zeroes.  <em>Note:</em>  Topologies and neighborhoods
+      are intended to be used as mixin classes, in order to make maps
+      that automatas use.</dd>
+<dt>    <strong>Map</strong></dt>
+<dd>The Map is the high-level class that the Automaton uses
+      in order to do operations on the cellular network, intended to
+      be a mixing of a Topology and a Neighborhood.</dd>
+<dt>    <strong>Automaton</strong></dt>
+<dd>The Automaton class is the core of the CAGE
+      system.  An Automaton knows how to update itself each turn; this
+      is the primary class which does the busy work of processing a
+      cellular automaton system.  Typically the Automaton class stores
+      a map, and has a rule method that specifies the transition
+      function.  There is no restriction that an Automaton must house
+      exactly one map; for an agent-based automata it might store
+      none, or for interacting automata overlaid on top of each other
+      it might store several.</dd>
+<dt>    <strong>SynchronousAutomaton</strong></dt>
+<dd>A synchronous automaton is one in
+      which all processing is done simultaneously -- that is, during
+      the processing of an update, the transitions of any given cell
+      will not affect the transition of any other cell.  For this to
+      be accomplished, the SynchronousAutomaton creates and stores a
+      clone of the map in order to act as a work area, and the real
+      and work maps are swapped when processing is complete.
+      Most cellular automata are typically synchronous.</dd>
+<dt>    <strong>Rule</strong></dt>
+<dd>The rule class is an optional mixin class (intended to
+      be mixed into an Automaton) which implements generic rules that
+      are independent of topology, neighborhood, and/or
+      dimensionality.</dd>
+<dt>    <strong>Agent</strong></dt>
+<dd>CAGE supports the concept of agents, which are
+      individual objects that can interact with the automata
+      independently of a cell.  Agents typically have a location
+      (specified as an address) and a direction, which allow them to
+      move freely over an underlying automata topology (though
+      strictly speaking it is not necessary for one to exist).  This
+      allows simulation of, for instance, Langton vants, or ants which
+      drop pheromones, and so on.</dd>
+<dt>    <strong>Direction</strong></dt>
+<dd>To facilitate implementing independent agents,
+      CAGE also introduces the abstraction of a direction, which
+      allows agents to specify a facing.  Directions are subclassed
+      according to the topology and neighborhood they would be most
+      appropriate for.  Directions have a facing, as well as an
+      advance method which allows agents to move along the direction
+      specified.</dd>
+<dt>    <strong>Initializer</strong></dt>
+<dd>An initializer is used to set the initial
+      states of an automaton map to the desired settings before the
+      automaton begins.</dd>
+<dt>    <strong>Player</strong></dt>
+<dd>Finally, a player represents the abstraction that
+      displays an automaton on the screen.  Two main classes are
+      provided, a LinePlayer for use with 1D automata, and a
+      CursesPlayer, which uses curses to display 2D automata and a
+      simple user interface.  Also included is an ImagePlayer, which
+      uses <a href="http://www.pythonware.com/library/pil/handbook/index.htm">PIL</a> to
+      render a "movie" of a 1D automaton.  Players support a size
+      attribute that can be passed into a map/automaton constructor
+      that supports dynamic sizing of the map to the terminal size;
+      for this reason, a Player is constructed, and then an Automaton
+      is constructed with its size attribute; this allows the Player
+      to give feedback to the Automaton, so that, for instance, the
+      screen size can be autodetected by the Player.</dd>
+</dl>
+<h3>Known issues</h3>
+
+<ul>
+<li><p>CAGE is not designed for speed, and probably never will be.  It
+      is designed primarily for educational or experimental purposes.
+      However, given the speed issues, some in-Python optimizations
+      might be in order, such as support for only updating
+      dynamically-resizing regions for automata with largely quiescent
+      states, to reduce processing overhead.  Since speed itself is
+      not the primary concern, this is a fairly low priority, however.</p></li>
+<li><p>Only 1- and 2-dimensional topologies are truly supported,
+      although the core system could be easily extended to support 3-
+      or higher-dimensional automata.  Visualization, of course, would
+      present a problem.</p></li>
+<li><p>There is strictly no need for states to be represented as
+      integers, perhaps the concept of a state could be generalized to
+      include any object which support the required operators
+      (integers, rationals, floats, even vectors).</p></li>
+
+</ul>
+<h3>Wish list</h3>
+
+<ul>
+<li><p>Use of NumPy for faster array access.</p></li>
+<li><p>For interactivity, help screens in the CursesPlayer and the like
+      are probably warranted.</p></li>
+<li><p>A more uniform form of invocation of each of the sample
+      automata, <em>e.g.</em>, command command line arguments for specifying
+      the neighborhood, boundary conditions, number of states, and so
+      on, via command lines.</p></li>
+<li><p>An obvious enhancement would be a module which can read and
+      write standard cellular automata pattern file formats.</p></li>
+<li><p>An interactive graphical Player would be a good idea, maybe
+      using Tkinter one of the other user interface libraries.</p></li>
+<li><p>More examples, especially of Agent-based automata, are
+      warranted.  Some of the systems described in the first few
+      chapters of <em>A New Kind of Science</em>, for instance, are
+      promising.</p></li>
+<li><p>A sort of reverse map for agents would be a good idea, so that
+      automata with the need to lookup agents at a particular address
+      would be easier to write.</p></li>
+
+</ul>
+<h3>References</h3>
+
+<ul>
+<li><p><em>Cellular Automata Machines</em>, Toffoli, Margolus.</p></li>
+<li><p><em>Cellular Automata and Complexity</em>, Wolfram.</p></li>
+<li><p><em>Cellular Automata: Theory and Experiment</em>, Gutowitz (ed.).</p></li>
+<li><p><em>A New Kind of Science</em>, Wolfram.</p></li>
+
+</ul>
+<h3>Release history</h3>
+
+<ul>
+<li><p>1.1.4; 2006 Jul 29.  Minor organizational changes; add stepping
+      stone automaton.</p></li>
+<li><p>1.1.3; 2003 Oct 5.  Fix AsynchronousAutomaton updating method;
+      add a chain reaction demo; changed license to LGPL.</p></li>
+<li><p>1.1.2; 2002 Nov 4.  Workaround for reported crashes on some
+      Linux systems in either curses or the Python curses glue layer.</p></li>
+<li><p>1.1.1; 2002 Jul 23.  The Conway automaton inadvertently
+      defaulted to "high life" instead of the standard rule.</p></li>
+<li><p>1.1; 2002 Jul 21.  More examples, much better abstraction of
+      dimensionality, PointInitializers, simple ImagePlayer (using
+      PIL) and rule 110 example, concept of Rule mixins, 1D
+      nontotalistic and totalistic rule examples, separation of
+      concept of "icon" from Automaton classes.</p></li>
+<li><p>1.0; 2002 Mar 29.  Initial release.</p></li>
+
+</ul>
+<h3>Author</h3>
+<p>    This module was written by <a href="http://www.alcyone.com/max/">Erik Max Francis</a>.  If you use this software, have
+    suggestions for future releases, or bug reports, <a href="mailto:software@alcyone.com">I'd love to hear
+    about it</a>.</p>
+<h3>Version</h3>
+<p>    Version 1.1.4 $Date: 2006/07/29 $ $Author: max $</p>
+<table border="0" cellpadding="5" cellspacing="0" width="100%">
+
+        <tr>
+            <th bgcolor="#99ccff"
+                rowspan="2"
+                valign="top"
+                align="left"
+                width="20%"
+                >
+                <font color="#000000">
+                  <a name="Modules and Packages">Modules and Packages</a>&nbsp;
+                </font>
+            </th>
+            <th bgcolor="#99ccff"
+                valign="top"
+                align="left"
+                width="80%"
+                >
+                <font color="#000000">&nbsp;</font>
+            </th>
+        </tr>
+        <tr>
+        <td>
+        
+<table border="0" cellpadding="3" cellspacing="0">
+<tr><td valign="top" align="left"><p><a href="home/max/projects/cage/doc/110.html">110</a></p></td><td valign="top" align="left">
+<p>Same 1D rule 110 displayer using PIL.  Note that the display does not</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="home/max/projects/cage/doc/1d.html">1d</a></p></td><td valign="top" align="left">
+<p>A trivial 1D automaton rule explorer.  The example used here is for</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="home/max/projects/cage/doc/1dtotal.html">1dtotal</a></p></td><td valign="top" align="left">
+<p>A trivial 1D automaton rule explorer.  The example used here is for</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="home/max/projects/cage/doc/ant.html">ant</a></p></td><td valign="top" align="left">
+<p>A sample implementation of a unique finite state automaton with agents.</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="home/max/projects/cage/doc/brain.html">brain</a></p></td><td valign="top" align="left">
+<p>An implementation of the three-state Brian's Brain rule.</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="home/max/projects/cage/doc/cage.html">cage</a></p></td><td valign="top" align="left">
+<p>A full-featured, generic cellular automata engine in Python.</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="home/max/projects/cage/doc/chain.html">chain</a></p></td><td valign="top" align="left">
+<p>A simulation of a chain reaction.</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="home/max/projects/cage/doc/conway.html">conway</a></p></td><td valign="top" align="left">
+<p>An implementation of Conway's Game of Life, really just a specialization of</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="home/max/projects/cage/doc/cyclic.html">cyclic</a></p></td><td valign="top" align="left">
+<p>An implementation of the Demons of Cycling Space automaton.  <em>Note:</em></p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="home/max/projects/cage/doc/diamonds.html">diamonds</a></p></td><td valign="top" align="left">
+<p>A simple reduction automaton that generates diamond patterns.</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="home/max/projects/cage/doc/langton.html">langton</a></p></td><td valign="top" align="left">
+<p>An implementation of the Langton self-reproducing automaton.</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="home/max/projects/cage/doc/packard.html">packard</a></p></td><td valign="top" align="left">
+<p>An implementation of Packard's automaton.</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="home/max/projects/cage/doc/parity.html">parity</a></p></td><td valign="top" align="left">
+<p>An implementation of a trivial parity rule as a reduction automaton.</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="home/max/projects/cage/doc/rug.html">rug</a></p></td><td valign="top" align="left">
+<p>An implementation of the rug rule.</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="home/max/projects/cage/doc/squares.html">squares</a></p></td><td valign="top" align="left">
+<p>A simple reduction automaton that generates square patterns.</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="home/max/projects/cage/doc/stepping.html">stepping</a></p></td><td valign="top" align="left">
+<p>An implementation of Packard's automaton.</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="home/max/projects/cage/doc/sugar.html">sugar</a></p></td><td valign="top" align="left">
+<p>An implementation of the Belousov-Zhabotinsky reaction.  <em>Note:</em>  This</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="home/max/projects/cage/doc/total.html">total</a></p></td><td valign="top" align="left">
+<p>An implementation of arbitrary two-state totalistic automata.</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="home/max/projects/cage/doc/vant.html">vant</a></p></td><td valign="top" align="left">
+<p>An implementation of Langton's virtual ants (vants).</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="home/max/projects/cage/doc/vote.html">vote</a></p></td><td valign="top" align="left">
+<p>An implementating of the voting rule.</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="home/max/projects/cage/doc/wire.html">wire</a></p></td><td valign="top" align="left">
+<p>A WireWorld simulation.</p>
+</td></tr>
+</table>
+</td></tr>
+</table>
+
+        </td>
+        </tr>
+        </table>
+
+        <hr>
+
+        <p><i><a href="index.html">Table of Contents</a></i></p>
+
+        <font size="-2"><i>This document was automatically generated
+        on Sat Jul 29 13:31:37 2006 by
+        <a href="http://happydoc.sourceforge.net">HappyDoc</a> version
+        2.1</i></font>
+        
+        </body>
+        </html>
+        

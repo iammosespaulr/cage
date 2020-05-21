@@ -1,0 +1,274 @@
+Summary
+
+    A generic and fairly complete cellular automata simulation engine.
+
+
+Overview
+
+    CAGE is a fairy generic and complete cellular automaton simulation
+    engine in Python.  It supports both 1D and 2D automata, a variety
+    of prepackaged rules, and the concept of "agents" which can move
+    about independently on the map for implementing agent behavior.
+
+    CAGE comes with numerous examples of fully-functional CA systems,
+    including Conway's Game of Life, Langton's self-reproducing
+    automaton, Langton's "vants," and 1D automata rule explorers.  It
+    also comes with simple displayers (including a curses interface
+    for 2D automata).  Also included is a unique implementation of a
+    finite state machine (ant.py).
+
+    Note that CAGE is implemented entirely in Python, and due to its
+    very generalized nature, is not designed for speed.  It is
+    sufficient to update a 80x24 Conway's Game of Life grid at a few
+    times per second on a modern machine.  CAGE is intended primarily
+    as an education toolkit, rather than an industrial-strength CA
+    simulator.
+
+
+Getting the software
+
+    The current version of cage is 1.1.4.
+
+    The software is available in a tarball here:
+    "http://www.alcyone.com/software/cage/cage-latest.tar.gz",
+    http://www.alcyone.com/software/cage/cage-latest.tar.gz.
+
+    The official URL for this Web site is
+    "http://www.alcyone.com/software/cage/", 
+    http://www.alcyone.com/software/cage/.
+
+
+License
+
+    This code is released under the "LGPL",
+    http://www.gnu.org/copyleft/lesser.html.
+
+
+Introduction
+
+    In very general terms, a cellular automaton has the following key
+    features:
+
+    - time is measured in discrete steps, called time units;
+
+    - a network of cells, each of which with a well-defined state at
+      each time unit;
+
+    - at each time unit, each cell has a series of other cells which
+      constitutes its neighorhood;
+
+    - the state each of cell changes according to a state transition
+      function which depends on the state of that cell and the states
+      of the cells of its neighbors;
+
+    - in synchronous automata (the typical usage), all cell
+      transitions take place simultaneously.
+
+    In most cellular automata (and most textbook definitions), the
+    cellular network is arranged into a rigid lattice (*i.e.*, a line
+    or a grid), and for any given cell its neighborhood is constant
+    (that is, the same for all time steps).  These assumptions,
+    however, are not present in CAGE.
+
+    CAGE employs the following abstractions of the cellular automaton
+    model (and classes):
+
+    **State** -- The state of a cell is repesented with an integer
+      from 0 to N, where N is the total number of allowed states.
+
+    **Address** -- An address is merely a tuple of one more integers
+      that represents the location of a cell in a given topology.
+
+    **Dimensionality** -- The number of elements of the tuple in an
+      address; this must match the dimensionality of the topology
+      being used.
+
+    **Topology** -- Topologies determine the arrangements of cells in
+      a network.  Topologies can be bounded (where they have an edge,
+      and any addresses off that edge are taken as having some
+      background state), or unbounded (usually where they wrap around
+      on themselves, such as for the surface of a sphere).  Topologies
+      have the ability to normalize addresses, and additionally can
+      make morphologically identical clones of the same size and shape
+      (not necessarily their actual cellular states) for synchronous
+      automata that need to maintain multiple topologies for the sake
+      of simultaneous update.  *Note:*  Topologies and neighborhoods
+      are intended to be used as mixin classes, in order to make maps
+      that automatas use.
+
+    **Neighborhood** -- Neighborhoods encapsulate the translation of
+      addresses (not cell states) to a list of their neighbors, taking
+      into account the topology they are connected with.  The abstract
+      Neighborhood class also supports a wide variety of helper
+      methods (which need not be overridden) in order to help do
+      common operations with neighborhoods, such as finding neighbors
+      in a given state, summing the states of all neighbors, etc.
+      Some automata make a distinction between inclusive and exclusive
+      neighborhoods -- inclusive ones include the cell itself (whose
+      neighborhood is being computed), whereas exclusive ones do not.
+      CAGE does not make this distinction; some helper methods support
+      an optional inclusive argument for making this distinction; the
+      list of neighboring addresses should never include an address
+      consisting of all zeroes.  *Note:*  Topologies and neighborhoods
+      are intended to be used as mixin classes, in order to make maps
+      that automatas use.
+
+    **Map** -- The Map is the high-level class that the Automaton uses
+      in order to do operations on the cellular network, intended to
+      be a mixing of a Topology and a Neighborhood.
+
+    **Automaton** -- The Automaton class is the core of the CAGE
+      system.  An Automaton knows how to update itself each turn; this
+      is the primary class which does the busy work of processing a
+      cellular automaton system.  Typically the Automaton class stores
+      a map, and has a rule method that specifies the transition
+      function.  There is no restriction that an Automaton must house
+      exactly one map; for an agent-based automata it might store
+      none, or for interacting automata overlaid on top of each other
+      it might store several.
+
+    **SynchronousAutomaton** -- A synchronous automaton is one in
+      which all processing is done simultaneously -- that is, during
+      the processing of an update, the transitions of any given cell
+      will not affect the transition of any other cell.  For this to
+      be accomplished, the SynchronousAutomaton creates and stores a
+      clone of the map in order to act as a work area, and the real
+      and work maps are swapped when processing is complete.
+      Most cellular automata are typically synchronous.
+
+    **Rule** -- The rule class is an optional mixin class (intended to
+      be mixed into an Automaton) which implements generic rules that
+      are independent of topology, neighborhood, and/or
+      dimensionality.
+
+    **Agent** -- CAGE supports the concept of agents, which are
+      individual objects that can interact with the automata
+      independently of a cell.  Agents typically have a location
+      (specified as an address) and a direction, which allow them to
+      move freely over an underlying automata topology (though
+      strictly speaking it is not necessary for one to exist).  This
+      allows simulation of, for instance, Langton vants, or ants which
+      drop pheromones, and so on.
+
+    **Direction** -- To facilitate implementing independent agents,
+      CAGE also introduces the abstraction of a direction, which
+      allows agents to specify a facing.  Directions are subclassed
+      according to the topology and neighborhood they would be most
+      appropriate for.  Directions have a facing, as well as an
+      advance method which allows agents to move along the direction
+      specified.
+
+    **Initializer** -- An initializer is used to set the initial
+      states of an automaton map to the desired settings before the
+      automaton begins.
+
+    **Player** -- Finally, a player represents the abstraction that
+      displays an automaton on the screen.  Two main classes are
+      provided, a LinePlayer for use with 1D automata, and a
+      CursesPlayer, which uses curses to display 2D automata and a
+      simple user interface.  Also included is an ImagePlayer, which
+      uses "PIL",
+      http://www.pythonware.com/library/pil/handbook/index.htm to
+      render a "movie" of a 1D automaton.  Players support a size
+      attribute that can be passed into a map/automaton constructor
+      that supports dynamic sizing of the map to the terminal size;
+      for this reason, a Player is constructed, and then an Automaton
+      is constructed with its size attribute; this allows the Player
+      to give feedback to the Automaton, so that, for instance, the
+      screen size can be autodetected by the Player.
+
+
+Known issues
+
+    - CAGE is not designed for speed, and probably never will be.  It
+      is designed primarily for educational or experimental purposes.
+      However, given the speed issues, some in-Python optimizations
+      might be in order, such as support for only updating
+      dynamically-resizing regions for automata with largely quiescent
+      states, to reduce processing overhead.  Since speed itself is
+      not the primary concern, this is a fairly low priority, however.
+
+    - Only 1- and 2-dimensional topologies are truly supported,
+      although the core system could be easily extended to support 3-
+      or higher-dimensional automata.  Visualization, of course, would
+      present a problem.
+
+    - There is strictly no need for states to be represented as
+      integers, perhaps the concept of a state could be generalized to
+      include any object which support the required operators
+      (integers, rationals, floats, even vectors).
+
+
+Wish list
+
+    - Use of NumPy for faster array access.
+
+    - For interactivity, help screens in the CursesPlayer and the like
+      are probably warranted.
+
+    - A more uniform form of invocation of each of the sample
+      automata, *e.g.*, command command line arguments for specifying
+      the neighborhood, boundary conditions, number of states, and so
+      on, via command lines.
+
+    - An obvious enhancement would be a module which can read and
+      write standard cellular automata pattern file formats.
+
+    - An interactive graphical Player would be a good idea, maybe
+      using Tkinter one of the other user interface libraries.
+
+    - More examples, especially of Agent-based automata, are
+      warranted.  Some of the systems described in the first few
+      chapters of *A New Kind of Science*, for instance, are
+      promising.
+
+    - A sort of reverse map for agents would be a good idea, so that
+      automata with the need to lookup agents at a particular address
+      would be easier to write.
+
+
+References
+
+    - *Cellular Automata Machines*, Toffoli, Margolus.
+
+    - *Cellular Automata and Complexity*, Wolfram.
+
+    - *Cellular Automata: Theory and Experiment*, Gutowitz (ed.).
+
+    - *A New Kind of Science*, Wolfram.
+
+
+Release history
+
+    - 1.1.4; 2006 Jul 29.  Minor organizational changes; add stepping
+      stone automaton.
+
+    - 1.1.3; 2003 Oct 5.  Fix AsynchronousAutomaton updating method;
+      add a chain reaction demo; changed license to LGPL.
+
+    - 1.1.2; 2002 Nov 4.  Workaround for reported crashes on some
+      Linux systems in either curses or the Python curses glue layer.
+
+    - 1.1.1; 2002 Jul 23.  The Conway automaton inadvertently
+      defaulted to "high life" instead of the standard rule.
+
+    - 1.1; 2002 Jul 21.  More examples, much better abstraction of
+      dimensionality, PointInitializers, simple ImagePlayer (using
+      PIL) and rule 110 example, concept of Rule mixins, 1D
+      nontotalistic and totalistic rule examples, separation of
+      concept of "icon" from Automaton classes.
+
+    - 1.0; 2002 Mar 29.  Initial release.
+
+
+Author
+
+    This module was written by "Erik Max Francis",
+    http://www.alcyone.com/max/.  If you use this software, have
+    suggestions for future releases, or bug reports, "I'd love to hear
+    about it", mailto:software@alcyone.com.
+
+
+Version
+
+    Version 1.1.4 $Date: 2006/07/29 $ $Author: max $
