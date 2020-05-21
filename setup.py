@@ -14,7 +14,7 @@ setup(
     keywords = "python cellular automata simulation engine",
     url = "http://www.alcyone.com/software/cage/",
     packages=['cage'],
-    long_description=read('README'),
+    long_description=read('cage/README'),
     classifiers=[
         "Topic :: Utilities",
         "License :: OSI Approved :: LGPL License",

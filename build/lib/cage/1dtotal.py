@@ -43,7 +43,7 @@ def main():
     r = 2
     total = 2*k**(2*r + 1)
     for code in range(0, total + 1, 2):
-        print("%d/%d" % (code, total))
+        print "%d/%d" % (code, total)
         try:
             player = cage.LinePlayer(79)
             automaton = LinearTotalisticAutomaton(player.size, k, r, code)
@@ -52,6 +52,6 @@ def main():
         finally:
             if player is not None:
                 player.done()
-        print()
+        print
 
 if __name__ == '__main__': main()

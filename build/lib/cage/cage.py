@@ -17,7 +17,6 @@ __license__ = 'GPL'
 import operator
 import random
 import types
-from functools import reduce
 
 try:
     import curses
@@ -74,12 +73,12 @@ class Topology:
 
     def center(self):
         """A cell that's roughly in the center of the topology."""
-        address = [divmod(x, 2)[0] for x in self.size]
+        address = map(lambda x: divmod(x, 2)[0], self.size)
         return tuple(address)
 
     def random(self):
         """Create a random valid (normalized) address in this topology."""
-        address = list(map(random.randrange, self.size))
+        address = map(random.randrange, self.size)
         return tuple(address)
 
     def clone(self):
@@ -568,7 +567,7 @@ class CardinalDirection(Direction):
     DIRECTIONS = len(OFFSETS)
     ICONS = '-|-|'
 
-    EAST, NORTH, SOUTH, WEST = list(range(DIRECTIONS))
+    EAST, NORTH, SOUTH, WEST = range(DIRECTIONS)
 
     
 class OrdinalDirection(Direction):
@@ -581,7 +580,7 @@ class OrdinalDirection(Direction):
     ICONS = "-/|\\-/|\\"
 
     (EAST, NORTHEAST, NORTH, NORTHWEST, 
-     WEST, SOUTHWEST, SOUTH, SOUTHEAST) = list(range(DIRECTIONS))
+     WEST, SOUTHWEST, SOUTH, SOUTHEAST) = range(DIRECTIONS)
 
 
 class HexagonalDirection(Direction):
@@ -592,7 +591,7 @@ class HexagonalDirection(Direction):
     DIRECTIONS = len(OFFSETS)
     ICONS = "-/\\-/\\"
 
-    EAST, NORTHEAST, NORTHWEST, WEST, SOUTHWEST, SOUTHEAST = list(range(DIRECTIONS))
+    EAST, NORTHEAST, NORTHWEST, WEST, SOUTHWEST, SOUTHEAST = range(DIRECTIONS)
 
 
 
@@ -672,7 +671,7 @@ class CodedTotalisticRule:
     the rule for Conway's Game of Life would be 3/23."""
 
     def __init__(self, ruleCode):
-        if type(ruleCode) is bytes:
+        if type(ruleCode) is types.StringType:
             ruleCode = self.parseRule(ruleCode)
         self.populate(ruleCode)
 
@@ -836,7 +835,7 @@ class AsynchronousAutomaton(Automaton):
                     newCell = self.rule(address)
                     self.map.set(address, newCell)
         else:
-            raise NotImplementedError
+            raise (NotImplementedError, "unsupported map dimensionality")
         Automaton.update(self)
         
 
@@ -865,7 +864,7 @@ class SynchronousAutomaton(Automaton):
                     newCell = self.rule(address)
                     self.workMap.set(address, newCell)
         else:
-            raise NotImplementedError
+            raise (NotImplementedError, "unsupported map dimensionality")
         self.swap()
         Automaton.update(self)
 
@@ -881,7 +880,7 @@ class TwoStateAutomaton(SynchronousAutomaton):
     referred to as dead and alive."""
     
     states = 2
-    DEAD, ALIVE = list(range(states))
+    DEAD, ALIVE = range(states)
 
 
 class TwoStateReductionAutomaton(TwoStateAutomaton, ReductionRule):
@@ -989,7 +988,7 @@ class RandomInitializer(Initializer):
                         map.set((x, y), 
                                 random.randrange(automaton.states - 1) + 1)
         else:
-            raise NotImplementedError
+            raise (NotImplementedError, "unsupported map dimensionality")
 
 
 class SeedInitializer(Initializer):
@@ -1055,7 +1054,7 @@ class StringInitializer(PatternInitializer):
         ### Similar to PatternInitializer, but sequences of sequences of
         ### chars (typically sequences of strings).
         for stringLine in stringPattern:
-            line = list(map(int, stringLine))
+            line = map(int, stringLine)
             pattern.append(line)
         PatternInitializer.__init__(self, pattern)
 
@@ -1152,7 +1151,7 @@ class LinePlayer(TextPlayer):
         s = ''
         for x in range(map.length):
             s += self.stateIcon(map.get((x,)))
-        print(s)
+        print s
 
     def main(self, automaton):
         Player.main(self, automaton)

@@ -16,7 +16,7 @@ import cage
 
 class BrainAutomaton(cage.SynchronousAutomaton):
     states = 3
-    QUIESCENT, FIRING, REFRACTORY = list(range(states))
+    QUIESCENT, FIRING, REFRACTORY = range(states)
 
     def __init__(self, size):
         cage.SynchronousAutomaton.__init__(self, cage.MooreMap(size))

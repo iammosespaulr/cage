@@ -17,7 +17,7 @@ import cage
 class VoteAutomaton(cage.SynchronousAutomaton):
     
     states = 2
-    DEAD, ALIVE = list(range(states))
+    DEAD, ALIVE = range(states)
 
     normalTable = [DEAD, DEAD, DEAD, DEAD, DEAD, 
                    ALIVE, ALIVE, ALIVE, ALIVE, ALIVE]

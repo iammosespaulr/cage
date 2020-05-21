@@ -30,7 +30,7 @@ class Automaton(cage.AsynchronousAutomaton):
     particles as a list."""
 
     states = 3
-    CHARGED, FIRING, FIRED = list(range(states))
+    CHARGED, FIRING, FIRED = range(states)
     
     def __init__(self, size):
         cage.AsynchronousAutomaton.__init__(self, Map(size))
